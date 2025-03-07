@@ -6,7 +6,7 @@ permalink: /about/
 
 ## 关于我
 
-neu cs->ntu cca
+neu ai
 
 ## 版权声明
 
