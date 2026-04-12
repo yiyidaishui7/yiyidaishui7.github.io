@@ -27,7 +27,7 @@ body { transition: background 0.3s ease, color 0.3s ease; }
     filter: blur(150px);
     -webkit-filter: blur(150px);
     border-radius: 50%;
-    z-index: -5;
+    z-index: 9998;
     pointer-events: none;
     transition: background 0.5s ease;
 }
