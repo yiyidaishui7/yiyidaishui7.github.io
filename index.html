@@ -12,7 +12,7 @@
   <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}/feed.xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
 
   <style>
     /* ═══════════════════════════════════════════════
@@ -80,13 +80,22 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: var(--splash-bg);
+      background: var(--splash-bg) url('{{ site.baseurl }}/images/splash_bg.png') center/cover no-repeat;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: opacity 0.7s var(--ease-out), visibility 0.7s;
+    }
+    #splash::before {
+      content: "";
+      position: absolute;
+      inset: -50px;
+      backdrop-filter: blur(60px);
+      -webkit-backdrop-filter: blur(60px);
+      background: rgba(0,0,0,0.15);
+      z-index: 0;
     }
 
     #splash.hidden {
@@ -729,8 +738,8 @@
     <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
     <div class="splash-content">
-      <h1 class="splash-name">一衣带水</h1>
-      <p class="splash-sub">Yiyidaishui &nbsp;·&nbsp; NEU · AI</p>
+      <h1 class="splash-name" style="font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 400; line-height: 1.1; letter-spacing: 0; margin-bottom: 0.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.15);">To see a World<br/>in a Grain of Sand</h1>
+      <p class="splash-sub" style="font-family: 'Playfair Display', serif; font-style: italic; letter-spacing: 0.08em; text-transform: none; font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.15);">— William Blake</p>
       <p class="splash-cta" id="splash-prompt">
         <span>点击进入</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -814,13 +823,13 @@
         <!-- Hero decorative card (right col) -->
         <div class="hero-visual reveal" style="--delay:160ms" aria-hidden="true">
           <div class="hero-card">
-            <p class="hero-card-label">个人档案</p>
+            <p class="hero-card-label"></p>
 
             <div class="hero-card-stat">
               <div class="stat-icon blue">🎓</div>
               <div>
-                <p class="stat-text-main">东北大学</p>
-                <p class="stat-text-sub">人工智能专业</p>
+                <p class="stat-text-main">Nanyang Technological University</p>
+                <p class="stat-text-sub">Singapore</p>
               </div>
             </div>
 

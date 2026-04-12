@@ -7,10 +7,10 @@ favicon: https://yiyidaishui7.github.io/images/favicon.ico
 navigation:
   - name: 首页
     url: /
-  - name: 关于
-    url: /about
-  - name: 分类
-    url: /tags
+  - name: 作品
+    url: /works
+  - name: 随笔
+    url: /moments
 
 paginate: 8
 

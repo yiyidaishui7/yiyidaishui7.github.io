@@ -1,0 +1,106 @@
+---
+permalink: /moments/
+title: 生活碎片
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生活碎片 · Yiyidaishui</title>
+  {% include meta.html %}
+  <link rel="shortcut icon" href="{{ site.favicon }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:          #f5f5f7;
+      --bg-card:     #ffffff;
+      --ink:         #1d1d1f;
+      --ink-2:       #6e6e73;
+      --ink-3:       #aeaeb2;
+      --accent:      #0071e3;
+      --divider:     rgba(0,0,0,0.08);
+      --card-border: rgba(0,0,0,0.06);
+      --nav-glass:   rgba(245,245,247,0.72);
+      --section-gap: clamp(60px, 10vw, 120px);
+      --page-pad:    clamp(20px, 5vw, 60px);
+      --nav-h:       52px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Helvetica Neue", sans-serif;
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    
+    /* NAV */
+    .glass-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h); background: var(--nav-glass); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--divider); display: flex; align-items: center; }
+    .nav-inner { max-width: 980px; margin: 0 auto; padding: 0 var(--page-pad); width: 100%; display: flex; justify-content: space-between; gap: 2rem; }
+    .nav-brand { font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; color: var(--ink-2); text-decoration: none; transition: 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    @media (max-width: 600px) { .nav-links { display: none; } }
+
+    /* PAGE */
+    .page { max-width: 680px; margin: 0 auto; padding: calc(var(--nav-h) + clamp(48px,8vw,96px)) var(--page-pad) 4rem; min-height: 80vh; }
+    .page-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .page-desc { font-size: 1.05rem; color: var(--ink-2); margin-bottom: 3rem; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 2rem; position: relative; }
+    .timeline::before { content: ''; position: absolute; top: 0; bottom: 0; left: 16px; width: 2px; background: var(--divider); }
+    
+    .moment { position: relative; padding-left: 3rem; }
+    .moment-dot { position: absolute; left: 12px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); outline: 4px solid var(--bg); }
+    
+    .moment-card { background: var(--bg-card); border: 1px solid var(--card-border); border-radius: 18px; padding: 1.25rem 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.03); transition: transform 0.4s var(--spring); }
+    .moment-card:hover { transform: translateX(4px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    
+    .moment-date { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-3); margin-bottom: 0.5rem; display: block; }
+    .moment-text { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
+
+    .reveal { animation: fadeUp 0.8s var(--ease-out) both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="glass-nav">
+    <div class="nav-inner">
+      <a href="{{ site.baseurl }}/" class="nav-brand">一衣带水</a>
+      <ul class="nav-links">
+        {% for nav in site.navigation %}
+          <li><a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.name }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page">
+    <h1 class="page-title reveal" style="animation-delay: 0ms;">生活碎片</h1>
+    <p class="page-desc reveal" style="animation-delay: 100ms;">这里是随意抛洒的思绪碎片、读书笔记与偶尔的生活摄影。</p>
+
+    <div class="timeline">
+      <div class="moment reveal" style="animation-delay: 200ms;">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <span class="moment-date">APR 12, 2026</span>
+          <p class="moment-text">完成了全新博客主页的大翻新。从黑色赛博极客风换成了富有诗意的古典油画风底色。也许技术到头来终究要回归人文审美。</p>
+        </div>
+      </div>
+
+      <div class="moment reveal" style="animation-delay: 300ms;">
+        <div class="moment-dot"></div>
+        <div class="moment-card">
+          <span class="moment-date">MAR 07, 2025</span>
+          <p class="moment-text">记录下第一篇博文。技术之路漫漫长，希望能坚持写字。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
