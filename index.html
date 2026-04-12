@@ -1,0 +1,1137 @@
+---
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>一衣带水 · Yiyidaishui</title>
+  <meta name="description" content="一衣带水的个人网站 — NEU·AI · 技术与生活" />
+  {% include meta.html %}
+  <link rel="shortcut icon" href="{{ site.favicon }}" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}/feed.xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       RESET & TOKENS
+    ═══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Apple color palette */
+      --bg:          #f5f5f7;
+      --bg-card:     #ffffff;
+      --ink:         #1d1d1f;
+      --ink-2:       #6e6e73;
+      --ink-3:       #aeaeb2;
+      --accent:      #0071e3;
+      --accent-h:    #0077ed;
+      --divider:     rgba(0,0,0,0.08);
+      --card-border: rgba(0,0,0,0.06);
+      --nav-glass:   rgba(245,245,247,0.72);
+      --splash-bg:   #161617;
+
+      /* Spacing */
+      --section-gap: clamp(60px, 10vw, 120px);
+      --page-pad:    clamp(20px, 5vw, 60px);
+      --nav-h:       52px;
+
+      /* Font */
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Helvetica Neue", sans-serif;
+
+      /* Motion */
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; background: var(--splash-bg); }
+
+    body {
+      font-family: var(--font);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--splash-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Content hidden until splash exits */
+    body.splash-exit #site-wrapper {
+      animation: siteReveal 0.9s var(--ease-out) both;
+    }
+    body.splash-active #site-wrapper {
+      visibility: hidden;
+    }
+
+    @keyframes siteReveal {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SPLASH SCREEN
+    ═══════════════════════════════════════════════ */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--splash-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: opacity 0.7s var(--ease-out), visibility 0.7s;
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      user-select: none;
+    }
+
+    .splash-name {
+      font-size: clamp(2.8rem, 8vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: #f5f5f7;
+      line-height: 1.05;
+      margin-bottom: 0.75rem;
+      animation: splashFadeIn 1s var(--ease-out) 0.2s both;
+    }
+
+    .splash-sub {
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(245,245,247,0.45);
+      margin-bottom: 3rem;
+      animation: splashFadeIn 1s var(--ease-out) 0.5s both;
+    }
+
+    .splash-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,245,247,0.35);
+      animation: splashBlink 2s ease-in-out 1.2s infinite, splashFadeIn 1s var(--ease-out) 0.9s both;
+    }
+
+    @keyframes splashFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes splashBlink {
+      0%, 100% { opacity: 0.35; }
+      50%       { opacity: 0.7; }
+    }
+
+    /* Grid overlay */
+    .splash-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    /* Blue shimmer border */
+    .splash-border {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(0,112,255,0.2);
+      pointer-events: none;
+      box-shadow: inset 0 0 80px rgba(0,80,255,0.05);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SITE WRAPPER & NAV
+    ═══════════════════════════════════════════════ */
+    #site-wrapper {
+      background: var(--bg);
+      min-height: 100vh;
+    }
+
+    .glass-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      background: var(--nav-glass);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--divider);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 var(--page-pad);
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .nav-brand {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+    .nav-brand:hover { opacity: 0.7; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--ink-2);
+      text-decoration: none;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       PAGE CONTAINER
+    ═══════════════════════════════════════════════ */
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 var(--page-pad);
+      padding-top: calc(var(--nav-h) + clamp(48px,8vw,96px));
+    }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .reveal.in {
+      animation: fadeUp 0.7s var(--ease-out) var(--delay, 0ms) both;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.in { opacity: 1; transform: none; animation: none; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO SECTION
+    ═══════════════════════════════════════════════ */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(32px, 6vw, 80px);
+      align-items: center;
+      padding-bottom: var(--section-gap);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .hero-left { min-width: 0; }
+
+    .hero-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      display: block;
+      transition: transform 0.4s var(--spring);
+    }
+    .hero-avatar:hover { transform: scale(1.05); }
+
+    .hero-name {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-title {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink-2);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-bio {
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      line-height: 1.75;
+      max-width: 42ch;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Social icon links */
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      text-decoration: none;
+      padding: 0.45em 1em;
+      border-radius: 980px;
+      border: 1px solid var(--card-border);
+      background: var(--bg-card);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, transform 0.2s var(--spring);
+    }
+    .social-link:hover {
+      color: var(--accent);
+      border-color: rgba(0,113,227,0.3);
+      box-shadow: 0 4px 12px rgba(0,113,227,0.12);
+      transform: translateY(-1px);
+    }
+    .social-link svg {
+      width: 14px; height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* Hero right — decorative canvas */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .hero-card-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-card-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--divider);
+    }
+    .hero-card-stat:last-child { border-bottom: none; }
+
+    .stat-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .stat-icon.blue  { background: rgba(0,113,227,0.1); }
+    .stat-icon.green { background: rgba(52,199,89,0.1); }
+    .stat-icon.orange{ background: rgba(255,149,0,0.1); }
+
+    .stat-text-main {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .stat-text-sub {
+      font-size: 0.72rem;
+      color: var(--ink-3);
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual { display: none; }
+      .hero-name { font-size: clamp(2rem, 8vw, 3rem); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION COMMONS
+    ═══════════════════════════════════════════════ */
+    .section {
+      padding: var(--section-gap) 0;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .section-all {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .section-all:hover { opacity: 0.7; }
+
+    /* ═══════════════════════════════════════════════
+       NEWS / TIMELINE SECTION
+    ═══════════════════════════════════════════════ */
+    .news-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.25rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--divider);
+      align-items: start;
+    }
+    .news-item:last-child { border-bottom: none; }
+
+    .news-date {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--ink-3);
+      padding-top: 0.15rem;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+
+    .news-text {
+      font-size: 0.92rem;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    .news-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #34c759;
+      background: rgba(52,199,89,0.1);
+      border-radius: 4px;
+      padding: 0.15em 0.5em;
+      margin-right: 0.4rem;
+    }
+
+    @media (max-width: 500px) {
+      .news-item { grid-template-columns: 1fr; gap: 0.25rem; }
+      .news-date { padding-top: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       SEARCH BAR
+    ═══════════════════════════════════════════════ */
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-3);
+      pointer-events: none;
+    }
+    .search-icon svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .search-bar {
+      width: 100%;
+      padding: 0.7rem 1rem 0.7rem 2.75rem;
+      font-family: var(--font);
+      font-size: 0.9rem;
+      color: var(--ink);
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      outline: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: border-color 0.25s, box-shadow 0.25s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .search-bar::placeholder { color: var(--ink-3); }
+    .search-bar:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,113,227,0.12);
+    }
+
+    #results-container {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    #results-container li a {
+      display: block;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    #results-container li a:hover { background: rgba(0,0,0,0.04); }
+
+    /* ═══════════════════════════════════════════════
+       BLOG / POST CARDS
+    ═══════════════════════════════════════════════ */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 1.75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: transform 0.3s var(--spring), box-shadow 0.3s ease;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+    }
+    .post-card:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .post-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .post-card-date {
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--ink-3);
+      letter-spacing: 0.02em;
+    }
+
+    .post-card-tag {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(0,113,227,0.08);
+      border-radius: 4px;
+      padding: 0.15em 0.5em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .post-card-tag:hover { background: rgba(0,113,227,0.14); }
+
+    .post-card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .post-card-excerpt {
+      font-size: 0.85rem;
+      color: var(--ink-2);
+      line-height: 1.7;
+      flex-grow: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .post-card-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin-top: 0.25rem;
+    }
+    .post-card-cta svg { width: 12px; height: 12px; fill: currentColor; transition: transform 0.2s; }
+    .post-card:hover .post-card-cta svg { transform: translateX(3px); }
+
+    /* Empty state */
+    .posts-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--ink-2);
+      font-size: 0.9rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PAGINATION
+    ═══════════════════════════════════════════════ */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding-top: 2.5rem;
+    }
+    .pagination a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      text-decoration: none;
+      padding: 0.5em 1.1em;
+      border: 1px solid var(--card-border);
+      border-radius: 980px;
+      background: var(--bg-card);
+      transition: color 0.2s, border-color 0.2s, transform 0.2s var(--spring);
+    }
+    .pagination a:hover {
+      color: var(--accent);
+      border-color: rgba(0,113,227,0.3);
+      transform: translateY(-1px);
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    .site-footer {
+      padding: 3rem var(--page-pad) 4rem;
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--ink-3);
+    }
+
+    .footer-stats {
+      font-size: 0.72rem;
+      color: var(--ink-3);
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       UTILITY
+    ═══════════════════════════════════════════════ */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    a { color: inherit; }
+  </style>
+</head>
+
+<body class="splash-active">
+
+  <!-- ══════════════════════════════════════
+       SPLASH SCREEN
+  ══════════════════════════════════════ -->
+  <div id="splash" role="presentation" aria-label="点击进入">
+    <div class="splash-grid" aria-hidden="true"></div>
+    <div class="splash-border" aria-hidden="true"></div>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <div class="splash-content">
+      <h1 class="splash-name">一衣带水</h1>
+      <p class="splash-sub">Yiyidaishui &nbsp;·&nbsp; NEU · AI</p>
+      <p class="splash-cta" id="splash-prompt">
+        <span>点击进入</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="m12 4 1.41 1.41L7.83 11H20v2H7.83l5.58 5.59L12 20l-8-8 8-8z" transform="rotate(180,12,12)"/>
+        </svg>
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MAIN SITE
+  ══════════════════════════════════════ -->
+  <div id="site-wrapper">
+
+    <!-- ── Glass Nav ── -->
+    <nav class="glass-nav" aria-label="主导航">
+      <div class="nav-inner">
+        <a href="{{ site.baseurl }}/" class="nav-brand" aria-label="返回首页">一衣带水</a>
+        <ul class="nav-links">
+          {% for nav in site.navigation %}
+            <li>
+              {% if nav.url contains 'http://' or nav.url contains 'https://' %}
+                <a href="{{ nav.url }}" target="_blank" rel="noopener">{{ nav.name }}</a>
+              {% else %}
+                <a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.name }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+
+    <div class="page">
+
+      <!-- ── Hero ── -->
+      <section class="hero" aria-label="个人介绍">
+
+        <div class="hero-left">
+
+          {% if site.avatar %}
+            <img
+              class="hero-avatar reveal"
+              style="--delay:0ms"
+              src="{{ site.avatar }}"
+              alt="一衣带水的头像"
+              width="88" height="88"
+              loading="eager"
+            />
+          {% endif %}
+
+          <h1 class="hero-name reveal" style="--delay:80ms">一衣带水</h1>
+
+          <p class="hero-title reveal" style="--delay:140ms">
+            东北大学 · 人工智能
+          </p>
+
+          <p class="hero-bio reveal" style="--delay:200ms">
+            这里记录我的技术探索、生活感悟与碎碎念。<br />
+            热爱编程，相信每一次写作都是思考的延伸。
+          </p>
+
+          <div class="social-links reveal" style="--delay:280ms" aria-label="联系方式">
+            <!-- Email -->
+            <a href="mailto:yagkinc@163.com" class="social-link" aria-label="发送邮件">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Email
+            </a>
+            <!-- GitHub -->
+            <a href="https://github.com/yiyidaishui7" class="social-link" aria-label="GitHub 主页" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+              </svg>
+              GitHub
+            </a>
+          </div>
+
+        </div><!-- /.hero-left -->
+
+        <!-- Hero decorative card (right col) -->
+        <div class="hero-visual reveal" style="--delay:160ms" aria-hidden="true">
+          <div class="hero-card">
+            <p class="hero-card-label">个人档案</p>
+
+            <div class="hero-card-stat">
+              <div class="stat-icon blue">🎓</div>
+              <div>
+                <p class="stat-text-main">东北大学</p>
+                <p class="stat-text-sub">人工智能专业</p>
+              </div>
+            </div>
+
+            <div class="hero-card-stat">
+              <div class="stat-icon green">✍️</div>
+              <div>
+                <p class="stat-text-main">个人博客</p>
+                <p class="stat-text-sub">技术 · 生活 · 碎碎念</p>
+              </div>
+            </div>
+
+            <div class="hero-card-stat">
+              <div class="stat-icon orange">📧</div>
+              <div>
+                <p class="stat-text-main">yagkinc@163.com</p>
+                <p class="stat-text-sub">欢迎交流</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section><!-- /.hero -->
+
+      <!-- ── News Section ── -->
+      <section class="section reveal" id="news" style="--delay:0ms" aria-labelledby="news-heading">
+        <div class="section-header">
+          <h2 class="section-title" id="news-heading">🔥 近况</h2>
+        </div>
+
+        <ul class="news-list">
+          <li class="news-item reveal" style="--delay:60ms">
+            <span class="news-date">2025 · 03</span>
+            <span class="news-text">
+              <span class="news-badge">新</span>
+              建立了个人博客，开始记录技术与生活。
+            </span>
+          </li>
+          <li class="news-item reveal" style="--delay:120ms">
+            <span class="news-date">2025 · 03</span>
+            <span class="news-text">
+              发布了第一篇文章 <em>Hello World</em>，分享技术、生活与碎碎念栏目规划。
+            </span>
+          </li>
+          <li class="news-item reveal" style="--delay:180ms">
+            <span class="news-date">持续中</span>
+            <span class="news-text">
+              深入学习人工智能方向知识，探索 LLM、深度学习等前沿领域。
+            </span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ── Blog / Writing ── -->
+      <section class="section reveal" id="blog" style="--delay:0ms" aria-labelledby="blog-heading">
+        <div class="section-header">
+          <h2 class="section-title" id="blog-heading">📝 文章</h2>
+          <a href="{{ site.baseurl }}/tags" class="section-all" aria-label="查看所有标签">浏览全部 →</a>
+        </div>
+
+        <!-- Search -->
+        <div class="search-wrapper">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+          </span>
+          <input
+            type="search"
+            id="search-input"
+            class="search-bar"
+            placeholder="搜索文章…"
+            aria-label="搜索文章"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <ul id="results-container" role="listbox" aria-label="搜索结果"></ul>
+        </div>
+
+        <!-- Post cards -->
+        <div class="posts-grid" role="list">
+          {% if site.posts.size == 0 %}
+            <div class="posts-empty">
+              <p>还没有文章，敬请期待 ✦</p>
+            </div>
+          {% else %}
+            {% for post in paginator.posts %}
+              {% unless post.draft %}
+                <a
+                  href="{{ site.baseurl }}{{ post.url }}"
+                  class="post-card reveal"
+                  style="--delay:{{ forloop.index | times: 60 }}ms"
+                  role="listitem"
+                  aria-label="{{ post.title }}"
+                >
+                  <div class="post-card-meta">
+                    <time class="post-card-date" datetime="{{ post.date | date: '%Y-%m-%d' }}">
+                      {{ post.date | date: "%Y · %m · %d" }}
+                    </time>
+                    {% for tag in post.tags limit:2 %}
+                      <span class="post-card-tag">{{ tag }}</span>
+                    {% endfor %}
+                  </div>
+
+                  <h3 class="post-card-title">{{ post.title }}</h3>
+
+                  <p class="post-card-excerpt">{{ post.excerpt | truncate: 110 | strip_html }}</p>
+
+                  <span class="post-card-cta">
+                    继续阅读
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8-8-8z"/>
+                    </svg>
+                  </span>
+                </a>
+              {% endunless %}
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination" aria-label="翻页导航">
+          {% if paginator.previous_page %}
+            <a href="{{ site.baseurl }}{{ paginator.previous_page_path }}" aria-label="上一页">
+              ← 上一页
+            </a>
+          {% endif %}
+          {% if paginator.next_page %}
+            <a href="{{ site.baseurl}}{{ paginator.next_page_path }}" aria-label="下一页">
+              下一页 →
+            </a>
+          {% endif %}
+        </nav>
+
+      </section><!-- /.blog -->
+
+    </div><!-- /.page -->
+
+    <!-- ── Footer ── -->
+    <footer>
+      <div class="site-footer">
+        <p class="footer-copy">Copyright &copy; 2024 Yiyidaishui &nbsp;·&nbsp; 转载请联系授权</p>
+        <div class="footer-stats" aria-label="访问统计">
+          <span id="busuanzi_container_site_pv">
+            Views&thinsp;<span id="busuanzi_value_site_pv"></span>
+          </span>
+          <span id="busuanzi_container_site_uv">
+            Visitors&thinsp;<span id="busuanzi_value_site_uv"></span>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /#site-wrapper -->
+
+  <!-- ══════════════════════════════════════
+       SCRIPTS
+  ══════════════════════════════════════ -->
+
+  <!-- Jekyll Simple Search -->
+  <script src="{{ site.baseurl }}/js/simple-jekyll-search.min.js"></script>
+  <script>
+    if (typeof SimpleJekyllSearch !== 'undefined') {
+      new SimpleJekyllSearch({
+        searchInput:      document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        json:             '{{ site.baseurl }}/search.json',
+        searchResultTemplate: '<li role="option"><a href="{url}?query={query}">{title}</a></li>',
+        noResultsText:    '<li style="padding:.5rem 1rem;font-size:.85rem;color:var(--ink-3)">无相关结果</li>',
+        limit: 6,
+        fuzzy: false
+      });
+    }
+  </script>
+
+  <!-- Busuanzi visitor counter -->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  <!-- ── Particle Canvas ── -->
+  <script>
+    (function () {
+      var canvas = document.getElementById('particle-canvas');
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var W, H;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      function Particle() {
+        this.reset();
+      }
+      Particle.prototype.reset = function () {
+        this.x  = Math.random() * W;
+        this.y  = Math.random() * H;
+        this.r  = Math.random() * 1.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.a  = Math.random() * 0.5 + 0.1;
+      };
+
+      for (var i = 0; i < 80; i++) {
+        particles.push(new Particle());
+      }
+
+      var raf;
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(function (p) {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > W || p.y < 0 || p.y > H) p.reset();
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(200,220,255,' + p.a + ')';
+          ctx.fill();
+        });
+        raf = requestAnimationFrame(draw);
+      }
+      draw();
+
+      // Stop particles after splash dismissed
+      window._stopParticles = function () {
+        cancelAnimationFrame(raf);
+        ctx.clearRect(0, 0, W, H);
+      };
+    })();
+  </script>
+
+  <!-- ── Splash Exit ── -->
+  <script>
+    (function () {
+      var splash  = document.getElementById('splash');
+      var body    = document.body;
+      var dismissed = false;
+
+      function dismiss() {
+        if (dismissed) return;
+        dismissed = true;
+        splash.classList.add('hidden');
+        body.classList.remove('splash-active');
+        body.classList.add('splash-exit');
+        if (window._stopParticles) window._stopParticles();
+        // prevent splash from blocking after transition
+        setTimeout(function () { splash.style.display = 'none'; }, 800);
+      }
+
+      splash.addEventListener('click', dismiss);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') dismiss();
+      });
+
+      // Auto-dismiss on first scroll (if user scrolls without clicking)
+      document.addEventListener('wheel', dismiss, { once: true, passive: true });
+      document.addEventListener('touchstart', dismiss, { once: true, passive: true });
+    })();
+  </script>
+
+  <!-- ── Scroll Reveal ── -->
+  <script>
+    (function () {
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduced) {
+        document.querySelectorAll('.reveal').forEach(function (el) {
+          el.classList.add('in');
+        });
+        return;
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+      // Observe only after splash exits to avoid animation during hidden state
+      function attachObserver() {
+        document.querySelectorAll('.reveal').forEach(function (el) {
+          io.observe(el);
+        });
+      }
+
+      var splash = document.getElementById('splash');
+      splash.addEventListener('click', function () {
+        setTimeout(attachObserver, 400);
+      }, { once: true });
+      document.addEventListener('keydown', function () {
+        setTimeout(attachObserver, 400);
+      }, { once: true });
+      document.addEventListener('wheel', function () {
+        setTimeout(attachObserver, 400);
+      }, { once: true, passive: true });
+      document.addEventListener('touchstart', function () {
+        setTimeout(attachObserver, 400);
+      }, { once: true, passive: true });
+    })();
+  </script>
+
+  {% include analytics.html %}
+
+</body>
+</html>
