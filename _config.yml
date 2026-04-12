@@ -1,7 +1,7 @@
 name: "Yiyidaishui's blog"
 description: "一衣带水的个人网站"
 
-avatar: https://yiyidaishui7.github.io/images/avatar.webp
+# avatar: https://yiyidaishui7.github.io/images/avatar.webp
 favicon: https://yiyidaishui7.github.io/images/favicon.ico
 
 navigation:

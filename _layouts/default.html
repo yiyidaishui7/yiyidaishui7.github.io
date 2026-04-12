@@ -1,34 +1,106 @@
 <!DOCTYPE html>
-<html>
-  {% include head.html %}
-  <body>
-    {% include nav.html %}
-
-    {% if page.toc==true %}
-      <aside class="toc">
-        {% include toc.html html=content %}
-      </aside>
-    {% endif %}
-
-    <div id="main" role="main" class="wrapper-content">
-      <div class="container">
-        {{ content }}
-      </div>
-    </div>
-
-    {% include analytics.html %}
-  </body>
-
-  {% if page.toc==true %}
+<html lang="zh-CN">
+<head>
   <script>
-    document.getElementById("main").classList.add("withtoc");
+    (function(){
+      var savedTheme = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
   </script>
-  {% endif %}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }} · Yiyidaishui</title>
+  {% include meta.html %}
+  <link rel="shortcut icon" href="{{ site.favicon }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
 
-  <div class="wrapper-footer-mobile">
-    <footer class="footer">
-      {% include footer.html %}
-    </footer>
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/interactions.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:          #f5f5f7;
+      --bg-card:     #ffffff;
+      --ink:         #1d1d1f;
+      --ink-2:       #6e6e73;
+      --ink-3:       #aeaeb2;
+      --accent:      #0071e3;
+      --divider:     rgba(0,0,0,0.08);
+      --card-border: rgba(0,0,0,0.06);
+      --nav-glass:   rgba(245,245,247,0.72);
+      --nav-h:       52px;
+      --page-pad:    clamp(20px, 5vw, 60px);
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, "Helvetica Neue", sans-serif;
+    }
+    body { font-family: var(--font); background: var(--bg); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    
+    /* NAV */
+    .glass-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: var(--nav-h); background: var(--nav-glass); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--divider); display: flex; align-items: center; }
+    .nav-inner { max-width: 980px; margin: 0 auto; padding: 0 var(--page-pad); width: 100%; display: flex; justify-content: space-between; gap: 2rem; }
+    .nav-brand { font-weight: 600; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; color: var(--ink-2); text-decoration: none; transition: 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    @media (max-width: 600px) { .nav-inner { padding: 0 4vw; } .nav-brand { font-size: 0.9rem; } .nav-links { gap: 1rem; margin-left: auto; } .nav-links a { font-size: 0.8rem; } }
 
+    /* LAYOUT CONTAINER */
+    .wrapper-content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: calc(var(--nav-h) + 60px) var(--page-pad) 100px;
+      min-height: 80vh;
+    }
 
+    /* READING TYPOGRAPHY */
+    .wrapper-content h1 { font-size: clamp(2rem, 5vw, 2.5rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 2rem; line-height: 1.2; }
+    .wrapper-content h2 { font-size: 1.5rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
+    .wrapper-content h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.5rem; }
+    .wrapper-content p { margin-bottom: 1.5rem; font-size: 1.05rem; }
+    .wrapper-content a { color: var(--accent); text-decoration: none; }
+    .wrapper-content a:hover { text-decoration: underline; }
+    .wrapper-content img { max-width: 100%; border-radius: 12px; margin: 1.5rem 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .wrapper-content pre, .wrapper-content code { background: rgba(100,100,100,0.08); border-radius: 6px; font-family: monospace; font-size: 0.9em; }
+    .wrapper-content pre { padding: 1.2rem; overflow-x: auto; margin-bottom: 1.5rem; border: 1px solid var(--divider); }
+    .wrapper-content blockquote { border-left: 4px solid var(--accent); padding-left: 1rem; color: var(--ink-2); font-style: italic; margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 1rem; border-radius: 0 8px 8px 0; }
+    .wrapper-content ul, .wrapper-content ol { margin-bottom: 1.5rem; padding-left: 1.5rem; font-size: 1.05rem; }
+    .wrapper-content li { margin-bottom: 0.5rem; }
+    
+    .meta { display: flex; flex-wrap: wrap; gap: 1rem; font-size: 0.9rem; color: var(--ink-3); margin-bottom: 3rem; align-items: center; }
+    .tag { display: flex; gap: 0.5rem; list-style: none; padding: 0; }
+    .tag li { background: rgba(100,100,100,0.05); padding: 0.1rem 0.6rem; border-radius: 12px; font-size: 0.8rem; }
+    .tag a { color: var(--ink-2); text-decoration: none; }
+    
+    .pagination { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--divider); }
+    .reveal { animation: fadeUp 0.8s var(--ease-out) both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <nav class="glass-nav">
+    <div class="nav-inner">
+      <a href="{{ site.baseurl }}/" class="nav-brand">一衣带水</a>
+      <ul class="nav-links">
+        {% for nav in site.navigation %}
+          <li><a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.name }}</a></li>
+        {% endfor %}
+        <li>
+          <button id="theme-toggle" aria-label="切换黑夜模式">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21a9 9 0 0 1-6.36-15.36 9 9 0 1 0 11.72 11.72A8.96 8.96 0 0 1 12 21z"/></svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="main" role="main" class="wrapper-content reveal" style="animation-delay: 50ms;">
+    {{ content }}
+  </div>
+
+  <script src="{{ site.baseurl }}/js/main-interactions.js"></script>
+</body>
 </html>
