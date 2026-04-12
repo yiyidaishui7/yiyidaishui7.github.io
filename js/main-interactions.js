@@ -1,49 +1,13 @@
-// Custom Cursor
-function initCursor() {
-  const cursorDot = document.createElement('div');
-  cursorDot.className = 'custom-cursor-dot';
-  
-  const cursorOutline = document.createElement('div');
-  cursorOutline.className = 'custom-cursor-outline';
-  
-  document.body.appendChild(cursorDot);
-  document.body.appendChild(cursorOutline);
+// Ambient Glow Cursor
+function initAmbientLight() {
+  const light = document.createElement('div');
+  light.id = 'ambient-light';
+  document.body.appendChild(light);
 
-  let mouseX = 0;
-  let mouseY = 0;
-  let outlineX = 0;
-  let outlineY = 0;
-  
-  window.addEventListener('mousemove', function(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    // Dot follows immediately
-    cursorDot.style.left = mouseX + 'px';
-    cursorDot.style.top = mouseY + 'px';
-  });
-
-  // Animation loop for smooth outline delay
-  function animate() {
-    let dx = mouseX - outlineX;
-    let dy = mouseY - outlineY;
-    
-    // Ease factor
-    outlineX += dx * 0.15;
-    outlineY += dy * 0.15;
-    
-    cursorOutline.style.left = outlineX + 'px';
-    cursorOutline.style.top = outlineY + 'px';
-    
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // Highlight effect on clickable elements
-  const clickables = document.querySelectorAll('a, button, input, .card, .post-card, .moment-card');
-  clickables.forEach(el => {
-    el.addEventListener('mouseenter', () => cursorOutline.classList.add('cursor-hover'));
-    el.addEventListener('mouseleave', () => cursorOutline.classList.remove('cursor-hover'));
+  document.addEventListener('mousemove', function(e) {
+    // Offset by half of width/height (570px/510px) to center it on the cursor
+    // Using transform translates for smooth 60fps rendering
+    light.style.transform = `translate(${e.clientX - 285}px, ${e.clientY - 255}px)`;
   });
 }
 
@@ -81,7 +45,7 @@ function initTilt() {
 
 document.addEventListener('DOMContentLoaded', () => {
   if (!window.matchMedia('(max-width: 768px)').matches) {
-    initCursor(); // Only on desktop
+    initAmbientLight(); // Only on desktop
     initTilt();
   }
   initThemeToggle();
