@@ -5,6 +5,15 @@ title: 作品集
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+  <script>
+    (function(){
+      var savedTheme = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>作品集 · Yiyidaishui</title>
@@ -14,6 +23,7 @@ title: 作品集
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet" />
 
+  <link rel="stylesheet" href="{{ site.baseurl }}/css/interactions.css" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -70,6 +80,11 @@ title: 作品集
         {% for nav in site.navigation %}
           <li><a href="{{ site.baseurl }}{{ nav.url }}">{{ nav.name }}</a></li>
         {% endfor %}
+        <li>
+          <button id="theme-toggle" aria-label="切换黑夜模式">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21a9 9 0 0 1-6.36-15.36 9 9 0 1 0 11.72 11.72A8.96 8.96 0 0 1 12 21z"/></svg>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -99,5 +114,7 @@ title: 作品集
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <script src="{{ site.baseurl }}/js/main-interactions.js"></script>
 </body>
 </html>
