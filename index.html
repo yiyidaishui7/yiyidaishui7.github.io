@@ -126,14 +126,15 @@
     .cargo-avatar:hover { transform: scale(1.06); }
 
     .cargo-name {
-      font-size: clamp(3rem, 11vw, 8rem);
+      font-size: clamp(4rem, 15vw, 12rem);
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.05em;
       line-height: 1;
       text-transform: uppercase;
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
       color: #ffffff;
+      text-shadow: 0 10px 40px rgba(0,0,0,0.25);
     }
     .cargo-name .name-hello {
       display: block;
@@ -255,18 +256,18 @@
       text-decoration: none;
       padding: 0.5em 1.1em;
       border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.45);
-      background: rgba(255,255,255,0.18);
-      color: #ffffff;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      border: 1.5px solid var(--card-border);
+      background: var(--bg-card);
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--spring);
       cursor: pointer;
     }
     .cs-link:hover {
-      background: rgba(255,255,255,0.32);
-      border-color: rgba(255,255,255,0.75);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      background: var(--bg-card);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 6px 20px rgba(0,85,255,0.12);
       transform: translateY(-2px);
     }
     .cs-link svg {
@@ -286,22 +287,22 @@
     /* ── Hover Tooltip (plain text for GitHub/Email) ── */
     .cs-tooltip {
       position: absolute;
-      bottom: calc(100% + 10px);
+      bottom: calc(100% + 14px);
       left: 50%;
-      transform: translateX(-50%) translateY(4px);
-      background: rgba(5,15,40,0.92);
-      color: #e0eeff;
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.03em;
-      padding: 0.45em 0.9em;
+      transform: translateX(-50%) translateY(8px);
+      background: #111;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0.5em 1em;
       border-radius: 8px;
       white-space: nowrap;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.2s, transform 0.2s;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+      transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+      z-index: 1100;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
     }
     .cs-tooltip::after {
       content: '';
@@ -309,8 +310,8 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: rgba(5,15,40,0.92);
+      border: 6px solid transparent;
+      border-top-color: #111;
     }
     .cs-link:hover .cs-tooltip {
       opacity: 1;
@@ -320,19 +321,21 @@
     /* ── WeChat hover card (replaces modal) ── */
     .cs-wechat-card {
       position: absolute;
-      bottom: calc(100% + 12px);
+      bottom: calc(100% + 16px);
       left: 50%;
-      transform: translateX(-50%) translateY(6px);
+      transform: translateX(-50%) translateY(10px);
       background: #fff;
-      border-radius: 18px;
-      padding: 1.25rem 1rem 1rem;
-      box-shadow: 0 12px 40px rgba(0,40,130,0.22), 0 2px 8px rgba(0,0,0,0.12);
+      border-radius: 20px;
+      padding: 1.5rem 1.25rem 1.25rem;
+      box-shadow: 
+        0 20px 50px rgba(0,40,130,0.28), 
+        0 4px 12px rgba(0,0,0,0.12);
       text-align: center;
-      width: 170px;
+      width: 180px;
       pointer-events: none;
       opacity: 0;
-      transition: opacity 0.22s, transform 0.22s var(--spring);
-      z-index: 200;
+      transition: opacity 0.3s var(--ease-out), transform 0.3s var(--spring);
+      z-index: 1200;
     }
     .cs-wechat-card::after {
       content: '';
@@ -368,7 +371,7 @@
       color: #999;
       margin-top: 0.18rem;
     }
-    #cs-wechat:hover .cs-wechat-card {
+    .cs-link:hover .cs-wechat-card {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
       pointer-events: all;
@@ -991,10 +994,7 @@
 
     <div class="cargo-hero-center">
       <!-- Two-line Name -->
-      <h1 class="cargo-name">
-        <span class="name-hello">HELLO,</span>
-        <span class="name-iam">I AM SKYE</span>
-      </h1>
+      <h1 class="cargo-name">SKYE</h1>
     </div>
 
     <div class="cargo-scroll" aria-hidden="true">
@@ -1051,19 +1051,21 @@
 
             <!-- GitHub -->
             <a href="https://github.com/yiyidaishui7" target="_blank" rel="noopener"
-               class="social-link" aria-label="GitHub">
+               class="cs-link" aria-label="GitHub">
               <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
               GitHub
+              <span class="cs-tooltip">github.com/yiyidaishui7</span>
             </a>
 
             <!-- Email -->
-            <a href="mailto:yagkinc@163.com" class="social-link" aria-label="Email">
+            <a href="mailto:yagkinc@163.com" class="cs-link" aria-label="Email">
               <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
               Email
+              <span class="cs-tooltip">yagkinc@163.com</span>
             </a>
 
             <!-- WeChat hover card -->
-            <button type="button" class="social-link" id="profile-wechat" style="position:relative;">
+            <button type="button" class="cs-link" id="profile-wechat">
               <svg viewBox="0 0 24 24"><path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.04 1.04 3.86 2.67 5.07L4 18l2.67-1.33A8.77 8.77 0 0 0 9.5 17c.17 0 .34 0 .5-.02A5.98 5.98 0 0 1 10 16c0-3.31 2.91-6 6.5-6 .23 0 .46.01.68.03C16.27 7.06 13.15 4 9.5 4zm-1.5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.5 4c-2.76 0-5 1.79-5 4s2.24 4 5 4c.62 0 1.22-.11 1.78-.3L20 21l-.55-1.83C20.42 18.33 21 17.21 21 16c0-2.21-2.24-4-4.5-4zm-1.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
               微信
               <span class="cs-wechat-card" role="tooltip">
