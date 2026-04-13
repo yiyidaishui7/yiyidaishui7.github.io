@@ -8,9 +8,9 @@ navigation:
   - name: 首页
     url: /
   - name: 作品
-    url: /works
+    url: /#works
   - name: 随笔
-    url: /moments
+    url: /#moments
 
 paginate: 8
 
