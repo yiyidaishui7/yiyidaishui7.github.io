@@ -3,19 +3,18 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <script>
-    (function(){
-      var savedTheme = localStorage.getItem('theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    })();
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Skye</title>
   <meta name="description" content="Skye的个人网站" />
+  <!-- SEO / Open Graph -->
+  <meta property="og:title" content="Skye" />
+  <meta property="og:description" content="Skye的个人网站 | Agent · LLMs · AIGC" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ site.url }}" />
+  <meta property="og:image" content="{{ site.url }}/images/avater_real.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
   {% include meta.html %}
   <link rel="shortcut icon" href="{{ site.favicon }}" />
   <link rel="alternate" type="application/rss+xml" title="{{ site.name }}" href="{{ site.baseurl }}/feed.xml" />
@@ -70,6 +69,15 @@
       overflow-x: hidden;
     }
 
+    img {
+      max-width: 100%;
+      height: auto;
+      background-color: var(--divider);
+      transition: opacity 0.3s var(--ease-out);
+    }
+    img:not([src]) { opacity: 0; }
+    img[src] { opacity: 1; }
+
     /* ═══════════════════════════════════════════════
        CARGO HERO — Deep Blue Gradient
     ═══════════════════════════════════════════════ */
@@ -86,9 +94,7 @@
       padding: 0 clamp(2rem, 8vw, 8rem);
     }
 
-    html[data-theme="dark"] .cargo-hero {
-      background: linear-gradient(to bottom, #00051a 0%, #000a33 35%, #000f40 65%, #001a8c 100%);
-    }
+
 
     /* Corner decorative letters */
     .cargo-corner-letter {
@@ -144,7 +150,7 @@
       font-weight: 900;
       letter-spacing: -0.03em;
     }
-    html[data-theme="dark"] .cargo-name { color: #e8f0ff; }
+
 
     /* ── Profile section (below hero) ── */
     .profile-section {
@@ -212,7 +218,7 @@
       letter-spacing: 0.2em;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
     }
-    html[data-theme="dark"] .cargo-cn-name { color: rgba(200,220,255,0.75); }
+
 
     .cargo-sub {
       font-size: clamp(0.7rem, 1.3vw, 0.9rem);
@@ -221,7 +227,7 @@
       color: rgba(255,255,255,0.7);
       text-transform: uppercase;
     }
-    html[data-theme="dark"] .cargo-sub { color: rgba(180,210,255,0.7); }
+
 
     .cargo-bio {
       font-size: clamp(0.88rem, 1.4vw, 1rem);
@@ -229,7 +235,7 @@
       line-height: 1.85;
       max-width: 50ch;
     }
-    html[data-theme="dark"] .cargo-bio { color: rgba(200,225,255,0.8); }
+
 
     /* ── Social Links Row ── */
     .cargo-socials {
@@ -270,14 +276,7 @@
       fill: currentColor;
       flex-shrink: 0;
     }
-    html[data-theme="dark"] .cs-link {
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(150,190,255,0.35);
-      color: #c8e0ff;
-    }
-    html[data-theme="dark"] .cs-link:hover {
-      background: rgba(255,255,255,0.20);
-    }
+
 
     /* ── Hover Tooltip (plain text for GitHub/Email) ── */
     .cs-tooltip {
@@ -390,7 +389,7 @@
       opacity: 1;
       animation: floatY 2s ease-in-out infinite;
     }
-    html[data-theme="dark"] .cargo-scroll { color: rgba(180,210,255,0.65); }
+
     @keyframes floatY {
       0%, 100% { bottom: 40px; }
       50% { bottom: 28px; }
@@ -1038,6 +1037,7 @@
           alt="Skye的头像"
           class="profile-avatar"
           width="100" height="100"
+          loading="lazy"
         />
         <!-- Body -->
         <div class="profile-body">
@@ -1070,7 +1070,7 @@
               <svg viewBox="0 0 24 24"><path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.04 1.04 3.86 2.67 5.07L4 18l2.67-1.33A8.77 8.77 0 0 0 9.5 17c.17 0 .34 0 .5-.02A5.98 5.98 0 0 1 10 16c0-3.31 2.91-6 6.5-6 .23 0 .46.01.68.03C16.27 7.06 13.15 4 9.5 4zm-1.5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.5 4c-2.76 0-5 1.79-5 4s2.24 4 5 4c.62 0 1.22-.11 1.78-.3L20 21l-.55-1.83C20.42 18.33 21 17.21 21 16c0-2.21-2.24-4-4.5-4zm-1.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
               微信
               <span class="cs-wechat-card" role="tooltip">
-                <img src="{{ site.baseurl }}/images/wechat_qcode.jpg" alt="微信二维码" />
+                <img src="{{ site.baseurl }}/images/wechat_qcode.jpg" alt="微信二维码" loading="lazy" />
                 <span class="wc-title">一衣带水</span>
                 <span class="wc-id">微信号:Skyeee7</span>
                 <span class="wc-hint">扫一扫添加好友</span>
@@ -1433,5 +1433,18 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
   <script src="{{ site.baseurl }}/js/main-interactions.js"></script>
+
+  <script>
+    // ── HERO PARALLAX (S/C background letters) ──
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset;
+      if (scrollY < 800) {
+        const s = document.querySelector('.corner-tl');
+        const c = document.querySelector('.corner-tr');
+        if (s) s.style.transform = `translateY(${scrollY * 0.15}px)`;
+        if (c) c.style.transform = `translateY(${scrollY * 0.25}px)`;
+      }
+    }, { passive: true });
+  </script>
 </body>
 </html>
