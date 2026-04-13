@@ -70,124 +70,76 @@
       overflow-x: hidden;
     }
 
-    /* Content hidden until splash exits */
-    body.splash-exit #site-wrapper {
-      animation: siteReveal 0.9s var(--ease-out) both;
-    }
-    body.splash-active #site-wrapper {
-      visibility: hidden;
-    }
-
-    @keyframes siteReveal {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
     /* ═══════════════════════════════════════════════
-       SPLASH SCREEN
+       CARGO HERO 
     ═══════════════════════════════════════════════ */
-    #splash {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--splash-bg) url('{{ site.baseurl }}/images/splash_bg.png') center/cover no-repeat;
+    .cargo-hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-color: #004DE6; /* Bold Electric Blue */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: opacity 0.7s var(--ease-out), visibility 0.7s;
+      color: #ffffff;
+      overflow: hidden;
     }
-    #splash::before {
-      content: "";
-      position: absolute;
-      inset: -50px;
-      backdrop-filter: blur(60px);
-      -webkit-backdrop-filter: blur(60px);
-      background: rgba(0,0,0,0.15);
-      z-index: 0;
-    }
+    
+    html[data-theme="dark"] .cargo-hero { background-color: #0037a8; }
 
-    #splash.hidden {
-      opacity: 0;
-      pointer-events: none;
-      visibility: hidden;
-    }
-
-    #particle-canvas {
+    .cargo-corner-letter {
       position: absolute;
-      inset: 0;
+      font-size: clamp(6rem, 20vw, 15rem);
+      font-weight: 800;
+      line-height: 0.7;
+      letter-spacing: -0.05em;
+      opacity: 0.15;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
       pointer-events: none;
     }
+    .corner-tl { top: clamp(60px, 12vh, 120px); left: clamp(-10px, -2vw, -20px); }
+    .corner-tr { top: clamp(60px, 12vh, 120px); right: clamp(-10px, -2vw, -20px); }
 
-    .splash-content {
-      position: relative;
-      z-index: 1;
+    .cargo-center {
       text-align: center;
-      user-select: none;
+      z-index: 2;
+      padding: 0 2rem;
     }
-
-    .splash-name {
-      font-size: clamp(2.8rem, 8vw, 6rem);
-      font-weight: 700;
-      letter-spacing: -0.035em;
-      color: #f5f5f7;
-      line-height: 1.05;
-      margin-bottom: 0.75rem;
-      animation: splashFadeIn 1s var(--ease-out) 0.2s both;
-    }
-
-    .splash-sub {
-      font-size: clamp(0.85rem, 2vw, 1rem);
-      font-weight: 300;
-      letter-spacing: 0.25em;
+    .cargo-name {
+      font-size: clamp(3rem, 15vw, 12rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 0.9;
       text-transform: uppercase;
-      color: rgba(245,245,247,0.45);
-      margin-bottom: 3rem;
-      animation: splashFadeIn 1s var(--ease-out) 0.5s both;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
     }
-
-    .splash-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
+    .cargo-sub {
+      font-size: clamp(0.7rem, 2vw, 1.3rem);
       font-weight: 500;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.15em;
+      margin-top: 1.5rem;
+      opacity: 0.85;
       text-transform: uppercase;
-      color: rgba(245,245,247,0.35);
-      animation: splashBlink 2s ease-in-out 1.2s infinite, splashFadeIn 1s var(--ease-out) 0.9s both;
     }
 
-    @keyframes splashFadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes splashBlink {
-      0%, 100% { opacity: 0.35; }
-      50%       { opacity: 0.7; }
-    }
-
-    /* Grid overlay */
-    .splash-grid {
+    .cargo-scroll {
       position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0.6;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { bottom: 40px; }
+      50% { bottom: 30px; }
     }
 
-    /* Blue shimmer border */
-    .splash-border {
-      position: absolute;
-      inset: 0;
-      border: 1px solid rgba(0,112,255,0.2);
-      pointer-events: none;
-      box-shadow: inset 0 0 80px rgba(0,80,255,0.05);
-    }
 
     /* ═══════════════════════════════════════════════
        SITE WRAPPER & NAV
@@ -762,32 +714,31 @@
   </style>
 </head>
 
-<body class="splash-active">
+<body>
 
   <!-- ══════════════════════════════════════
-       SPLASH SCREEN
+       CARGO HERO + PARTICLE CANVAS
   ══════════════════════════════════════ -->
-  <div id="splash" role="presentation" aria-label="点击进入">
-    <div class="splash-grid" aria-hidden="true"></div>
-    <div class="splash-border" aria-hidden="true"></div>
-    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <header class="cargo-hero" aria-label="个人介绍">
+    <canvas id="particle-canvas" aria-hidden="true" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none;"></canvas>
+    
+    <div class="cargo-corner-letter corner-tl" aria-hidden="true">A</div>
+    <div class="cargo-corner-letter corner-tr" aria-hidden="true">1</div>
 
-    <div class="splash-content">
-      <h1 class="splash-name" style="font-family: 'Great Vibes', cursive; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 400; line-height: 1.1; letter-spacing: 0; margin-bottom: 0.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.15);">To see a World<br/>in a Grain of Sand</h1>
-      <p class="splash-sub" style="font-family: 'Playfair Display', serif; font-style: italic; letter-spacing: 0.08em; text-transform: none; font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 500; text-shadow: 0 2px 10px rgba(0,0,0,0.15);">— William Blake</p>
-      <p class="splash-cta" id="splash-prompt">
-        <span>点击进入</span>
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="m12 4 1.41 1.41L7.83 11H20v2H7.83l5.58 5.59L12 20l-8-8 8-8z" transform="rotate(180,12,12)"/>
-        </svg>
-      </p>
+    <div class="cargo-center" style="position:relative; z-index:2; pointer-events:none;">
+      <h1 class="cargo-name">YIYIDAISHUI</h1>
+      <p class="cargo-sub">Agent / LLMs / AIGC</p>
     </div>
-  </div>
+
+    <div class="cargo-scroll" aria-hidden="true" style="position:absolute; bottom:40px; z-index:2; pointer-events:none;">
+      Scroll
+    </div>
+  </header>
 
   <!-- ══════════════════════════════════════
        MAIN SITE
   ══════════════════════════════════════ -->
-  <div id="site-wrapper">
+  <div id="site-wrapper" style="position:relative; z-index:3; background:var(--bg);">
 
     <!-- ── Glass Nav ── -->
     <nav class="glass-nav" aria-label="主导航">
@@ -809,85 +760,6 @@
 
     <div class="page">
 
-      <!-- ── Hero ── -->
-      <section class="hero" aria-label="个人介绍">
-
-        <div class="hero-left">
-
-          {% if site.avatar %}
-            <img
-              class="hero-avatar reveal"
-              style="--delay:0ms"
-              src="{{ site.avatar }}"
-              alt="一衣带水的头像"
-              width="88" height="88"
-              loading="eager"
-            />
-          {% endif %}
-
-          <h1 class="hero-name reveal" style="--delay:80ms">一衣带水</h1>
-
-          <p class="hero-title reveal" style="--delay:140ms">
-            南洋理工大学(NTU) · AI<br>
-            <span style="font-size: 0.85em; font-weight: normal; opacity: 0.8;">Agent / LLMs / AIGC</span>
-          </p>
-
-          <p class="hero-bio reveal" style="--delay:200ms">
-            这里记录我的技术探索、生活感悟与碎碎念。<br />
-            热爱编程，相信每一次写作都是思考的延伸。
-          </p>
-
-          <div class="social-links reveal" style="--delay:280ms" aria-label="联系方式">
-            <!-- Email -->
-            <a href="mailto:yagkinc@163.com" class="social-link" aria-label="发送邮件">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
-              </svg>
-              Email
-            </a>
-            <!-- GitHub -->
-            <a href="https://github.com/yiyidaishui7" class="social-link" aria-label="GitHub 主页" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-              </svg>
-              GitHub
-            </a>
-          </div>
-
-        </div><!-- /.hero-left -->
-
-        <!-- Hero decorative card (right col) -->
-        <div class="hero-visual reveal" style="--delay:160ms" aria-hidden="true">
-          <div class="hero-card">
-            <p class="hero-card-label"></p>
-
-            <div class="hero-card-stat">
-              <div class="stat-icon blue">🎓</div>
-              <div>
-                <p class="stat-text-main">Nanyang Technological University</p>
-                <p class="stat-text-sub">Singapore</p>
-              </div>
-            </div>
-
-            <div class="hero-card-stat">
-              <div class="stat-icon green">✍️</div>
-              <div>
-                <p class="stat-text-main">个人博客</p>
-                <p class="stat-text-sub">技术 · 生活 · 碎碎念</p>
-              </div>
-            </div>
-
-            <div class="hero-card-stat">
-              <div class="stat-icon orange">📧</div>
-              <div>
-                <p class="stat-text-main">yagkinc@163.com</p>
-                <p class="stat-text-sub">欢迎交流</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </section><!-- /.hero -->
 
       <!-- ── Works Section ── -->
       <section class="section reveal" id="works" style="--delay:0ms" aria-labelledby="works-heading">
@@ -1121,42 +993,10 @@
       }
       draw();
 
-      // Stop particles after splash dismissed
-      window._stopParticles = function () {
-        cancelAnimationFrame(raf);
-        ctx.clearRect(0, 0, W, H);
-      };
+
     })();
   </script>
 
-  <!-- ── Splash Exit ── -->
-  <script>
-    (function () {
-      var splash  = document.getElementById('splash');
-      var body    = document.body;
-      var dismissed = false;
-
-      function dismiss() {
-        if (dismissed) return;
-        dismissed = true;
-        splash.classList.add('hidden');
-        body.classList.remove('splash-active');
-        body.classList.add('splash-exit');
-        if (window._stopParticles) window._stopParticles();
-        // prevent splash from blocking after transition
-        setTimeout(function () { splash.style.display = 'none'; }, 800);
-      }
-
-      splash.addEventListener('click', dismiss);
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') dismiss();
-      });
-
-      // Auto-dismiss on first scroll (if user scrolls without clicking)
-      document.addEventListener('wheel', dismiss, { once: true, passive: true });
-      document.addEventListener('touchstart', dismiss, { once: true, passive: true });
-    })();
-  </script>
 
   <!-- ── Scroll Reveal ── -->
   <script>
@@ -1184,26 +1024,13 @@
         });
       }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
 
-      // Observe only after splash exits to avoid animation during hidden state
+      // Attach immediately
       function attachObserver() {
         document.querySelectorAll('.reveal').forEach(function (el) {
           io.observe(el);
         });
       }
-
-      var splash = document.getElementById('splash');
-      splash.addEventListener('click', function () {
-        setTimeout(attachObserver, 400);
-      }, { once: true });
-      document.addEventListener('keydown', function () {
-        setTimeout(attachObserver, 400);
-      }, { once: true });
-      document.addEventListener('wheel', function () {
-        setTimeout(attachObserver, 400);
-      }, { once: true, passive: true });
-      document.addEventListener('touchstart', function () {
-        setTimeout(attachObserver, 400);
-      }, { once: true, passive: true });
+      setTimeout(attachObserver, 100);
     })();
   </script>
 
