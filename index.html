@@ -405,6 +405,45 @@
     }
 
 
+    /* ── Tech Stack ── */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+    .stack-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .stack-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-3);
+    }
+    .stack-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tag {
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.35em 0.8em;
+      background: var(--bg-card);
+      border: 1px solid var(--card-border);
+      color: var(--ink-2);
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
     /* ═══════════════════════════════════════════════
        SITE WRAPPER & NAV
     ═══════════════════════════════════════════════ */
@@ -1089,23 +1128,59 @@
         <div class="grid">
           <div class="card reveal" style="--delay: 100ms;">
             <div class="card-icon">🥈</div>
-            <h3 class="card-title">Kaggle 银牌方案</h3>
-            <p class="card-text">Make Data Count 挑战赛(Top 1%)。利用 vLLM 和正则构建两阶段推理流水线，零微调提取学术引用。</p>
+            <h3 class="card-title">Kaggle 银牌方案 (Top 1%)</h3>
+            <p class="card-text">"Make Data Count" 挑战赛获奖方案。利用 <b>vLLM</b> 搭建高吞吐推理流水线，零微调实现从非结构化文献中精准提取学术引用关系。</p>
           </div>
           <div class="card reveal" style="--delay: 200ms;">
             <div class="card-icon">📕</div>
-            <h3 class="card-title">智能智能体开发</h3>
-            <p class="card-text">小红书 Agent 实习。搭建 LLM-as-Judge 评审系统，并构建基于用户行为的 DPO 模型数据闭环。</p>
+            <h3 class="card-title">智能智能体 (Agent) 开发</h3>
+            <p class="card-text">职于小红书。主导构建 <b>LLM-as-Judge</b> 评审框架，通过线上行为回捞与 <b>DPO (Direct Preference Optimization)</b> 实现模型能力闭环优化。</p>
           </div>
           <div class="card reveal" style="--delay: 300ms;">
             <div class="card-icon">🧫</div>
-            <h3 class="card-title">生成式单细胞研究</h3>
-            <p class="card-text">NTU MARS Lab 课题。构建 MMD 正则化对抗自编码器，解决数据的域偏移问题，实现域外零样本泛化。</p>
+            <h3 class="card-title">生成式单细胞大模型</h3>
+            <p class="card-text">NTU MARS Lab 课题。针对领域偏移(Domain Shift)构建 <b>MMD 正则化对抗自编码器</b>，实现单细胞数据的跨域零样本(Zero-shot)泛化研究。</p>
           </div>
           <div class="card reveal" style="--delay: 400ms;">
             <div class="card-icon">🦙</div>
             <h3 class="card-title">MiniLlama 全链实现</h3>
-            <p class="card-text">结合中小模型特性从零实现类 Llama2.5 核心算子，自底向上跑通预训练至 DPO 对齐全链路。</p>
+            <p class="card-text">自底向上实现类 Llama2.5 核心算子，在有限算力下完成包含<b>预训练(Pre-training)</b>与<b>对齐(Alignment)</b>的完整 LLM 训练生命周期。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Tech Stack Section ── -->
+      <section class="section reveal" id="stack" style="--delay:0ms">
+        <div class="section-header">
+          <h2 class="section-title">🛠️ 技术栈</h2>
+        </div>
+        <div class="stack-grid">
+          <div class="stack-group">
+            <span class="stack-label">AI / LLM</span>
+            <div class="stack-tags">
+              <span class="tag">PyTorch</span>
+              <span class="tag">Transformers</span>
+              <span class="tag">LangChain</span>
+              <span class="tag">vLLM</span>
+              <span class="tag">Prompt Engineering</span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <span class="stack-label">Frameworks</span>
+            <div class="stack-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">React</span>
+              <span class="tag">Flask / FastAPI</span>
+              <span class="tag">PostgreSQL</span>
+            </div>
+          </div>
+          <div class="stack-group">
+            <span class="stack-label">Analytics & Math</span>
+            <div class="stack-tags">
+              <span class="tag">Scikit-learn</span>
+              <span class="tag">Single-cell Analysis</span>
+              <span class="tag">Mathematical Modeling</span>
+            </div>
           </div>
         </div>
       </section>
