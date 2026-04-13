@@ -71,73 +71,286 @@
     }
 
     /* ═══════════════════════════════════════════════
-       CARGO HERO 
+       CARGO HERO — Klein Blue to White Gradient
     ═══════════════════════════════════════════════ */
     .cargo-hero {
       position: relative;
       width: 100%;
       min-height: 100vh;
-      background-color: #004DE6; /* Bold Electric Blue */
+      background: linear-gradient(to bottom, #004DE6 0%, #1a6fff 20%, #6aadf7 55%, #d0e8ff 80%, #ffffff 100%);
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      color: #ffffff;
       overflow: hidden;
+      padding: 0 clamp(2rem, 8vw, 8rem);
     }
-    
-    html[data-theme="dark"] .cargo-hero { background-color: #0037a8; }
 
+    html[data-theme="dark"] .cargo-hero {
+      background: linear-gradient(to bottom, #002b8f 0%, #0040cc 30%, #0a1a3a 70%, #050810 100%);
+    }
+
+    /* Corner decorative letters */
     .cargo-corner-letter {
       position: absolute;
       font-size: clamp(6rem, 20vw, 15rem);
       font-weight: 800;
       line-height: 0.7;
       letter-spacing: -0.05em;
-      opacity: 0.15;
+      opacity: 0.10;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
       pointer-events: none;
+      color: #ffffff;
     }
     .corner-tl { top: clamp(60px, 12vh, 120px); left: clamp(-10px, -2vw, -20px); }
     .corner-tr { top: clamp(60px, 12vh, 120px); right: clamp(-10px, -2vw, -20px); }
 
-    .cargo-center {
-      text-align: center;
+    /* ── Hero content layout ── */
+    .cargo-intro {
+      position: relative;
       z-index: 2;
-      padding: 0 2rem;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .cargo-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      border: 3px solid rgba(255,255,255,0.8);
+      transition: transform 0.4s var(--spring);
+      margin-bottom: 0.5rem;
+    }
+    .cargo-avatar:hover { transform: scale(1.06); }
+
+    /* Two-line name block */
+    .cargo-name-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1em;
     }
     .cargo-name {
-      font-size: clamp(3rem, 15vw, 12rem);
+      font-size: clamp(2.8rem, 9vw, 6.5rem);
       font-weight: 900;
-      letter-spacing: -0.05em;
-      line-height: 0.9;
+      letter-spacing: -0.04em;
+      line-height: 1;
       text-transform: uppercase;
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
+      color: #ffffff;
     }
+    .cargo-name .name-hello {
+      display: block;
+      font-size: clamp(1.8rem, 5.5vw, 4rem);
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      opacity: 0.9;
+    }
+    .cargo-name .name-iam {
+      display: block;
+      font-size: clamp(2.8rem, 9vw, 6.5rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+    html[data-theme="dark"] .cargo-name { color: #e8f0ff; }
+
+    .cargo-cn-name {
+      font-size: clamp(0.9rem, 2vw, 1.2rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.2em;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
+    }
+    html[data-theme="dark"] .cargo-cn-name { color: rgba(200,220,255,0.75); }
+
     .cargo-sub {
-      font-size: clamp(0.7rem, 2vw, 1.3rem);
+      font-size: clamp(0.7rem, 1.3vw, 0.9rem);
       font-weight: 500;
-      letter-spacing: 0.15em;
-      margin-top: 1.5rem;
-      opacity: 0.85;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.7);
       text-transform: uppercase;
     }
+    html[data-theme="dark"] .cargo-sub { color: rgba(180,210,255,0.7); }
 
+    .cargo-bio {
+      font-size: clamp(0.88rem, 1.4vw, 1rem);
+      color: rgba(255,255,255,0.82);
+      line-height: 1.85;
+      max-width: 50ch;
+    }
+    html[data-theme="dark"] .cargo-bio { color: rgba(200,225,255,0.8); }
+
+    /* ── Social Links Row ── */
+    .cargo-socials {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+
+    .cs-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      padding: 0.5em 1.1em;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.18);
+      color: #ffffff;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s var(--spring);
+      cursor: pointer;
+    }
+    .cs-link:hover {
+      background: rgba(255,255,255,0.32);
+      border-color: rgba(255,255,255,0.75);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+    }
+    .cs-link svg {
+      width: 15px; height: 15px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    html[data-theme="dark"] .cs-link {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(150,190,255,0.35);
+      color: #c8e0ff;
+    }
+    html[data-theme="dark"] .cs-link:hover {
+      background: rgba(255,255,255,0.20);
+    }
+
+    /* ── Hover Tooltip (plain text for GitHub/Email) ── */
+    .cs-tooltip {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: rgba(5,15,40,0.92);
+      color: #e0eeff;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      padding: 0.45em 0.9em;
+      border-radius: 8px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    }
+    .cs-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: rgba(5,15,40,0.92);
+    }
+    .cs-link:hover .cs-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── WeChat hover card (replaces modal) ── */
+    .cs-wechat-card {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: #fff;
+      border-radius: 18px;
+      padding: 1.25rem 1rem 1rem;
+      box-shadow: 0 12px 40px rgba(0,40,130,0.22), 0 2px 8px rgba(0,0,0,0.12);
+      text-align: center;
+      width: 170px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.22s, transform 0.22s var(--spring);
+      z-index: 200;
+    }
+    .cs-wechat-card::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-top-color: #fff;
+    }
+    .cs-wechat-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #e8eef8;
+      display: block;
+      margin: 0 auto 0.65rem;
+    }
+    .cs-wechat-card .wc-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -0.01em;
+    }
+    .cs-wechat-card .wc-id {
+      font-size: 0.68rem;
+      color: #666;
+      margin-top: 0.22rem;
+    }
+    .cs-wechat-card .wc-hint {
+      font-size: 0.62rem;
+      color: #999;
+      margin-top: 0.18rem;
+    }
+    #cs-wechat:hover .cs-wechat-card {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: all;
+    }
+
+    /* WeChat modal styles removed — now using hover card */
+
+    /* ── Scroll Indicator ── */
     .cargo-scroll {
       position: absolute;
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 0.8rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      opacity: 0.6;
-      animation: float 2s ease-in-out infinite;
+      color: rgba(255,255,255,0.65);
+      opacity: 1;
+      animation: floatY 2s ease-in-out infinite;
     }
-    @keyframes float {
+    html[data-theme="dark"] .cargo-scroll { color: rgba(180,210,255,0.65); }
+    @keyframes floatY {
       0%, 100% { bottom: 40px; }
-      50% { bottom: 30px; }
+      50% { bottom: 28px; }
+    }
+
+    /* ── Particle Canvas ── */
+    #particle-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
     }
 
 
@@ -717,23 +930,98 @@
 <body>
 
   <!-- ══════════════════════════════════════
-       CARGO HERO + PARTICLE CANVAS
+       CARGO HERO
   ══════════════════════════════════════ -->
   <header class="cargo-hero" aria-label="个人介绍">
-    <canvas id="particle-canvas" aria-hidden="true" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none;"></canvas>
-    
-    <div class="cargo-corner-letter corner-tl" aria-hidden="true">A</div>
-    <div class="cargo-corner-letter corner-tr" aria-hidden="true">1</div>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
-    <div class="cargo-center" style="position:relative; z-index:2; pointer-events:none;">
-      <h1 class="cargo-name">YIYIDAISHUI</h1>
-      <p class="cargo-sub">Agent / LLMs / AIGC</p>
+    <div class="cargo-corner-letter corner-tl" aria-hidden="true">S</div>
+    <div class="cargo-corner-letter corner-tr" aria-hidden="true">C</div>
+
+    <div class="cargo-intro">
+      <!-- Avatar -->
+      <img
+        src="{{ site.baseurl }}/images/avater_real.jpg"
+        alt="一衣带水的头像"
+        class="cargo-avatar"
+        width="96" height="96"
+      />
+
+      <!-- Two-line Name -->
+      <div class="cargo-name-block">
+        <h1 class="cargo-name">
+          <span class="name-hello">HELLO,</span>
+          <span class="name-iam">I AM SKYE</span>
+        </h1>
+        <p class="cargo-cn-name">一衣带水 · Yiyidaishui</p>
+      </div>
+
+      <!-- Subtitle -->
+      <p class="cargo-sub">Agent · LLMs · AIGC&nbsp;&nbsp;|&nbsp;&nbsp;NEU → NTU</p>
+
+      <!-- Bio -->
+      <p class="cargo-bio">
+        东北大学本科（2025届）｜南洋理工大学计算机硕士在读。
+        专注于大语言模型智能体，热衷于 Kaggle 竞赛与开源。
+        喜欢摄影、爬山与一切有趣的事。
+      </p>
+
+      <!-- Social Links -->
+      <div class="cargo-socials">
+
+        <!-- GitHub -->
+        <a
+          href="https://github.com/yiyidaishui7"
+          target="_blank"
+          rel="noopener"
+          class="cs-link"
+          id="cs-github"
+          aria-label="GitHub"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+          <span class="cs-tooltip">github.com/yiyidaishui7</span>
+        </a>
+
+        <!-- Email -->
+        <a
+          href="mailto:yagkinc@163.com"
+          class="cs-link"
+          id="cs-email"
+          aria-label="发送邮件"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          Email
+          <span class="cs-tooltip">yagkinc@163.com</span>
+        </a>
+
+        <!-- WeChat — hover card, no modal -->
+        <button
+          type="button"
+          class="cs-link"
+          id="cs-wechat"
+          aria-label="微信联系"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 4C5.36 4 2 6.91 2 10.5c0 2.04 1.04 3.86 2.67 5.07L4 18l2.67-1.33A8.77 8.77 0 0 0 9.5 17c.17 0 .34 0 .5-.02A5.98 5.98 0 0 1 10 16c0-3.31 2.91-6 6.5-6 .23 0 .46.01.68.03C16.27 7.06 13.15 4 9.5 4zm-1.5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4.5 4c-2.76 0-5 1.79-5 4s2.24 4 5 4c.62 0 1.22-.11 1.78-.3L20 21l-.55-1.83C20.42 18.33 21 17.21 21 16c0-2.21-2.24-4-4.5-4zm-1.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+          微信
+          <!-- WeChat hover card -->
+          <span class="cs-wechat-card" role="tooltip">
+            <img src="{{ site.baseurl }}/images/wechat_qcode.jpg" alt="微信二维码" />
+            <span class="wc-title">一衣带水</span>
+            <span class="wc-id">微信号：Skyeee7</span>
+            <span class="wc-hint">扫一扫添加好友</span>
+          </span>
+        </button>
+
+      </div>
     </div>
 
-    <div class="cargo-scroll" aria-hidden="true" style="position:absolute; bottom:40px; z-index:2; pointer-events:none;">
-      Scroll
+    <div class="cargo-scroll" aria-hidden="true">
+      ↓ Scroll
     </div>
   </header>
+
+  <!-- WeChat modal removed; using hover card instead -->
 
   <!-- ══════════════════════════════════════
        MAIN SITE
@@ -946,54 +1234,129 @@
   <!-- Busuanzi visitor counter -->
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-  <!-- ── Particle Canvas ── -->
+  <!-- ── Blue Mouse Particle Canvas ── -->
   <script>
     (function () {
+      var hero = document.querySelector('.cargo-hero');
       var canvas = document.getElementById('particle-canvas');
-      var ctx = canvas.getContext('2d');
-      var particles = [];
-      var W, H;
+      if (!canvas || !hero) return;
 
+      var ctx = canvas.getContext('2d');
+      var W, H, mouse = { x: -9999, y: -9999 };
+      var particles = [];
+
+      /* ── Resize canvas to match hero ── */
       function resize() {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
+        W = canvas.width  = hero.offsetWidth;
+        H = canvas.height = hero.offsetHeight;
       }
       resize();
       window.addEventListener('resize', resize, { passive: true });
 
-      function Particle() {
-        this.reset();
+      /* ── Track mouse only inside hero ── */
+      hero.addEventListener('mousemove', function (e) {
+        var rect = hero.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      }, { passive: true });
+      hero.addEventListener('mouseleave', function () {
+        mouse.x = -9999; mouse.y = -9999;
+      });
+
+      /* ── Particle class ── */
+      function Particle(x, y) {
+        var angle  = Math.random() * Math.PI * 2;
+        var speed  = Math.random() * 2.5 + 0.8;
+        this.x     = x;
+        this.y     = y;
+        this.vx    = Math.cos(angle) * speed;
+        this.vy    = Math.sin(angle) * speed;
+        this.r     = Math.random() * 4 + 2;
+        this.alpha = 0.85;
+        this.decay = Math.random() * 0.012 + 0.008;
+        /* Blue spectrum: #004DE6 → #2979ff → #82b1ff → #ffffff */
+        var blues = ['rgba(0,77,230,', 'rgba(30,100,255,', 'rgba(100,170,255,', 'rgba(180,215,255,', 'rgba(255,255,255,'];
+        this.color = blues[Math.floor(Math.random() * blues.length)];
       }
-      Particle.prototype.reset = function () {
-        this.x  = Math.random() * W;
-        this.y  = Math.random() * H;
-        this.r  = Math.random() * 1.5 + 0.5;
-        this.vx = (Math.random() - 0.5) * 0.3;
-        this.vy = (Math.random() - 0.5) * 0.3;
-        this.a  = Math.random() * 0.5 + 0.1;
+      Particle.prototype.update = function () {
+        this.x    += this.vx;
+        this.y    += this.vy;
+        this.vy   += 0.04;          /* gentle gravity */
+        this.vx   *= 0.98;
+        this.r    *= 0.97;
+        this.alpha -= this.decay;
+      };
+      Particle.prototype.draw = function () {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, Math.max(0.1, this.r), 0, Math.PI * 2);
+
+        /* Glow */
+        var grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 2);
+        grd.addColorStop(0, this.color + '1)');
+        grd.addColorStop(1, this.color + '0)');
+        ctx.fillStyle = this.color + (this.alpha * 0.9).toFixed(2) + ')';
+        ctx.shadowColor = this.color + '0.7)';
+        ctx.shadowBlur  = 8;
+        ctx.fill();
+        ctx.restore();
       };
 
-      for (var i = 0; i < 80; i++) {
-        particles.push(new Particle());
+      /* ── Ambient floating particles ── */
+      var ambients = [];
+      function Ambient() { this.reset(); }
+      Ambient.prototype.reset = function () {
+        this.x  = Math.random() * W;
+        this.y  = Math.random() * H;
+        this.r  = Math.random() * 1.8 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.25;
+        this.vy = (Math.random() - 0.5) * 0.25;
+        this.a  = Math.random() * 0.35 + 0.05;
+      };
+      for (var i = 0; i < 55; i++) { ambients.push(new Ambient()); }
+
+      /* ── Spawn burst on mouse move ── */
+      var lastX = -9999, lastY = -9999;
+      function spawnIfMoved() {
+        if (mouse.x === -9999) return;
+        var dx = mouse.x - lastX, dy = mouse.y - lastY;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist > 4) {
+          var count = Math.min(6, Math.floor(dist / 5));
+          for (var k = 0; k < count; k++) {
+            particles.push(new Particle(mouse.x, mouse.y));
+          }
+          lastX = mouse.x; lastY = mouse.y;
+        }
       }
 
-      var raf;
+      /* ── Render loop ── */
       function draw() {
         ctx.clearRect(0, 0, W, H);
-        particles.forEach(function (p) {
-          p.x += p.vx;
-          p.y += p.vy;
-          if (p.x < 0 || p.x > W || p.y < 0 || p.y > H) p.reset();
+
+        /* Ambient */
+        ambients.forEach(function (p) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > W) p.vx *= -1;
+          if (p.y < 0 || p.y > H) p.vy *= -1;
+          ctx.save();
+          ctx.globalAlpha = p.a;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(200,220,255,' + p.a + ')';
+          ctx.fillStyle = 'rgba(180, 215, 255, 1)';
           ctx.fill();
+          ctx.restore();
         });
-        raf = requestAnimationFrame(draw);
+
+        /* Mouse trail */
+        spawnIfMoved();
+        particles = particles.filter(function (p) { return p.alpha > 0.01; });
+        particles.forEach(function (p) { p.update(); p.draw(); });
+
+        requestAnimationFrame(draw);
       }
       draw();
-
-
     })();
   </script>
 

@@ -5,8 +5,6 @@ description: "一衣带水的个人网站"
 favicon: https://yiyidaishui7.github.io/images/favicon.ico
 
 navigation:
-  - name: 首页
-    url: /
   - name: 作品
     url: /#works
   - name: 随笔
