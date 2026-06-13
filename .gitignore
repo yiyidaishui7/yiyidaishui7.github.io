@@ -1,3 +1,7 @@
 # jekyll local file
 .jekyll*
 _site
+
+# Python cache
+__pycache__/
+*.pyc
